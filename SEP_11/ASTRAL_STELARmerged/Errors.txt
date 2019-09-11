@@ -1,0 +1,37 @@
+phylonet/coalescent/MGDInference_DP.java:932: error: cannot find symbol
+            String[] taxa = ((STITreeCluster)clusters.get(0)).getTaxa();
+                                                             ^
+  symbol:   method getTaxa()
+  location: class STITreeCluster
+phylonet/coalescent/MGDInference_DP.java:938: error: cannot find symbol
+              if ((tc.getClusterSize() <= 1) || (tc.getClusterSize() == tc.getTaxa().length))
+                                                                          ^
+  symbol:   method getTaxa()
+  location: variable tc of type STITreeCluster
+phylonet/coalescent/DuplicationWeightCounter.java:85: error: method getClusterCoalNum_rooted in class DeepCoalescencesCounter cannot be applied to given types;
+                                        El.set(k, DeepCoalescencesCounter.getClusterCoalNum_rooted(
+                                                                         ^
+  required: Tree,STITreeCluster
+  found: Tree,STITreeCluster,MGDInference_DP.TaxonNameMap
+  reason: actual and formal argument lists differ in length
+phylonet/coalescent/DuplicationWeightCounter.java:314: error: cannot find symbol
+                        STITreeCluster c = new STITreeCluster(cluster.getTaxa());
+                                                                     ^
+  symbol:   method getTaxa()
+  location: variable cluster of type STITreeCluster
+phylonet/coalescent/ComputeMinCostTask.java:91: error: method getClusterCoalNum in class DeepCoalescencesCounter cannot be applied to given types;
+                                        _el_num = DeepCoalescencesCounter.getClusterCoalNum(trees,
+                                                                         ^
+  required: List<Tree>,STITreeCluster,boolean
+  found: List<Tree>,STITreeCluster,MGDInference_DP.TaxonNameMap,boolean
+  reason: actual and formal argument lists differ in length
+phylonet/coalescent/ComputeMinCostTask.java:187: error: method getClusterCoalNum_rooted in class DeepCoalescencesCounter cannot be applied to given types;
+                                                                        DeepCoalescencesCounter.getClusterCoalNum_rooted(tree, this.v.getCluster(),taxonNameMap);
+                                                                                               ^
+  required: Tree,STITreeCluster
+  found: Tree,STITreeCluster,MGDInference_DP.TaxonNameMap
+  reason: actual and formal argument lists differ in length
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+6 errors
+4 warnings
