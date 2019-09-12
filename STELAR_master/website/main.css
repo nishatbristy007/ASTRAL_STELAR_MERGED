@@ -1,0 +1,11 @@
+/* straight up taken from Keith's site*/
+.tiny {
+font-size:6pt;
+}
+.paper-title {
+  color: #551a8b;
+  font-weight: bold;
+}
+.paper-conf {
+  font-style: italic;
+}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html lang="en" class="gr__cseweb_ucsd_edu"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title> STELAR </title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="website/css" rel="stylesheet" type="text/css">
+  <link href="website/bootstrap.min.css" rel="stylesheet">
+  <link href="website/jumbotron-narrow.css" rel="stylesheet">
+  <link href="website/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<style>
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
+</style>
+
+  <script src="website/jquery-1.11.0.min.js"></script>
+  <script src="website/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // add a hash to the URL when the user clicks on a tab
+      $('a[data-toggle="tab"]').on('click', function(e) {
+	history.pushState(null, null, $(this).attr('href'));
+      });
+      // navigate to a tab when the history changes
+      window.addEventListener("popstate", function(e) {
+	var activeTab = $('[href=' + location.hash + ']');
+	if (activeTab.length) {
+	  activeTab.tab('show');
+	} else {
+	  $('a[href=#about]').tab('show');
+	}
+      });
+      $('a[href=#about]').tab('show');
+    })
+  </script>
+  
+  
+ 
+  </head>
+
+ 
+
+
+<div class="container">
+  <div class="header">
+    
+  <ul class="nav nav-pills pull-right" id="tabs">
+      <li class="active"><a href="#about" data-toggle="tab">about</a></li>
+      <li class=""><a href="#installation" data-toggle="tab">installation</a></li>
+      <li class=""><a href="#datasets" data-toggle="tab">datasets</a></li>
+     <!-- <li class=""><a href="#contributors" data-toggle="tab">contributors</a></li> !-->
+  </ul>
+  <h3><strong>STELAR</strong></h3>
+<div class="tab-content">
+
+
+<div class="tab-pane active" id="about">
+<div class="col-lg-12">
+  
+<h4>Description</h4>
+<p>
+   STELAR is a Dynamic Programming (DP) based software for estimating species trees given a set of rooted gene trees, such that triplet consistency 
+   (between a species tree and the gene trees) is maximized within a constrained search space. STELAR is fast, highly accurate and statistically consistent.
+   The algorithm used is described in our paper <span class="paper-title">"STELAR: A statistically 
+   consistent coalescent-based species trees estimation method by maximizing triplet consistency."
+   [ <a href="https://www.biorxiv.org/content/10.1101/594911v1">paper link</a> ]
+   </span>
+</p>
+
+<h4>Availability </h4> 
+  <p>
+  STELAR is freely available at <a href="https://github.com/islamazhar/STELAR">https://github.com/islamazhar/STELAR</a> 
+  </p>
+  
+<h4>Background and Results</h4>
+  <p>
+	  Species tree estimation is frequently based on phylogenomic approaches that use multiple genes from throughout
+the genome. However, estimating a species tree from a collection of gene trees can be complicated due to the presence 
+of gene tree incongruence resulting from incomplete lineage sorting (ILS), which is modelled by the multi-species coalescent process. 
+Maximum likelihood and Bayesian MCMC methods can potentially result in accurate trees, but they do not scale well to large datasets.
+  </p>
+  
+  <p> 
+  We present STELAR (Species Tree Estimation by maximizing tripLet AgReement), a new fast and highly accurate statistically consistent coalescent-based method for estimating species trees from a collection of gene trees. 
+  We formalized the constrained triplet consensus (CTC) problem and showed that the solution to the CTC problem is a statistically consistent estimate of the species tree under the multi-species coalescent (MSC) model. 
+  STELAR is an efficient dynamic programming based solution to the CTC problem which is very fast and highly accurate. 
+  We evaluated the accuracy of STELAR in comparison with MP-EST and ASTRAL -- two of the most popular and accurate coalescent-based methods. 
+  Experimental results suggest that STELAR matches the accuracy of ASTRAL and improves on MP-EST.
+  </p>
+
+  <p>
+  Theoretical and empirical results (on both simulated and real biological datasets) suggest that  STELAR is a valuable technique for species tree estimation from gene tree distributions.
+  </p>
+
+  
+
+<h4>Acknowledgment</h4>
+<p>
+
+STELAR code uses code from the PhyloNet package by Luay Nakhleh 
+<a href="https://bioinfocs.rice.edu/phylonet">(bioinfo.cs.rice.edu/phylonet)</a>.  
+The Phylonet code base was previously used by DynaDup and ASTRAL (with permission from Authors), 
+and STELAR is mostly based on DynaDup code base. 
+
+</p>
+
+  
+<h4>Bug Reports</h4>
+<p>
+We are always looking for ways to improve our codes. For any bugs please email at:
+<a href = "mailto: mazhar.buet11@gmail.com.">mazhar.buet11@gmail.com</a> </p>
+    
+  
+</div>
+</div>
+
+<div class="tab-pane" id="installation">
+<div class="col-lg-12">
+  
+  <form method="get" action="https://github.com/islamazhar/STELAR/releases/download/v1.0/STELAR.jar">
+   <button class="btn"><i class="fa fa-download"></i> Download STELAR</button>
+</form>
+  
+  <h4>How to run</h4>
+	STELAR provides a jar file. You need to execute the jar file via command line. STELAR requires your machine to have java version <code>9.0.4</code>
+	installed on your computer or later.
+	<ul>	
+	<li><code>cd</code> to the location where you have downloaded the STELAR jar file. </li>
+	<li>run the following command</li>
+	<code>java -jar STELAR.jar -i < input-gene-tree-name >  -o < out-species-tree-name > </code> <br>
+	</ul>
+	<h4>Options</h4>
+	<ul>
+	<li>By default STELAR will run the heuristic version. To run the exact version just add <code>-xt</code> paramter.</li> 
+   Therefore to run the exact  version command should be <br>
+	<code>java -jar STELAR.jar -i < input-gene-tree-name >  -o < out-species-tree-name > -xt</code>
+	<li>To score the number of triplets in a given species tree run</li>
+	<code>java -jar STELAR.jar -i < input-gene-tree-name >  -q < score-species-tree-name >  </code> <br>
+	</ul>
+	
+	
+</div>
+</div>
+
+
+<div class="tab-pane" id="datasets">
+  <div class="col-lg-12">
+    <h3>Datasets</h3>
+    We have analyzied the following datasets.
+    <ul>    
+	<li>11 taxon</li>
+    <li>15 taxon</li>
+    <li>37 taxon</li>
+    <li>Real biological dataset</li>
+    </ul>
+
+  </div>
+</div>
+
+
+</div> <!-- tab-content -->
+</div> <!-- container -->
+
+
+
+
+</body><span class="gr__tooltip"><span class="gr__tooltip-content"></span><i class="gr__tooltip-logo"></i><span class="gr__triangle"></span></span></html>

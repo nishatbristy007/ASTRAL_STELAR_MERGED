@@ -1,0 +1,14 @@
+.DS_Store
+.metadata
+*.class
+.metadata*
+.project*
+.settings*
+out/*
+.class*
+.py*
+.idea*
+make.sh
+manifest*
+STELAR.imi
+

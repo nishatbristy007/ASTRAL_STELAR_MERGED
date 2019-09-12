@@ -1,0 +1,83 @@
+#!/bin/bash
+set -x
+
+fn=`basename $1`
+
+
+inn=`mktemp`
+sed -e "s/\([(,]\)\([0-9][^),:]*\)/\1jn2Ld9X_\2/g" $1 > $inn
+#arb_resolve_polytomies.py $inn
+#reroot.py $inn.resolved s_0
+#nw_topology -I $inn.resolved.rooted > $inn
+#in=`basename $inn`
+rm $inn.resolved.rooted $inn.resolved
+
+ln -sf $inn ./$fn
+
+REP=10
+test $# -gt 3 && REP=$3
+echo "$REP runs of MP-EST will be performed"
+
+if [ -s $fn.best.of.$REP.tre ]; then
+  echo "Final results file $fn.best.of.$REP.tre is already generated. Terminating without rerunning MP-EST."
+  exit 0;
+fi
+
+for x in `seq 1 $REP`; do
+  grep "tree mpest" $fn.tre.mpest.$x
+  test $? == 0 || break
+done
+
+grep "tree mpest" $fn.tre.mpest.$x
+
+if [ $? != 0 ]; then
+
+  echo "`expr $x - 1` runs are already done. Starting from run $x ..."
+
+  species=$( cat $fn|sed -e "s/:[0-9.e-]*//g" -e "s/)[0-9.e-]*/)/g" -e "s/[(,);]/ /g" -e "s/ /\n/g"|sort|uniq|tail -n+2|sed -e "s/^\(.*\)$/\1 1 \1/g" )
+  sc=`echo "$species"|wc -l`
+  genes=`cat $fn|wc -l`
+  for x in `seq $x $REP`; do
+   echo "run $x of MPEST"
+   tmp=`mktemp "control-$fn-$x-XXXXX"`
+   echo "$fn
+0
+`expr $RANDOM$RANDOM % 10000000`
+$genes $sc 
+$species
+0
+"> $tmp
+
+   /media/mazharul-islam/C6546FD72636220A/Research/Bayzidsir/mpest/WorkingCopy/bin/mpest $tmp 1>$fn.$x.mpest.out
+   test $? == 1 || exit 1
+   mv $fn.tre $fn.tre.mpest.$x
+   grep "tree mpest" $fn.tre.mpest.$x
+   test $? == 0 || exit 1
+  done
+
+else
+  echo "All $x runs already finished. No more runs needed."
+fi
+bestrep=`grep -H "tree mpest" $fn.tre.mpest.*|sed -e "s/ .*\[/ /g" -e "s/\].*//g"|sort -n -k 2|tail -n1|sed -e "s/:.*//g"`
+echo $bestrep
+test -s $bestrep || exit 1
+ln -fs $bestrep $fn.tre.best.mpest
+python -c '
+import os
+import sys
+import dendropy
+src_fpath = os.path.expanduser(os.path.expandvars("'$fn.tre.best.mpest'"))
+if not os.path.exists(src_fpath):
+    sys.stderr.write("Not found: %s" % src_fpath) 
+    sys.exit(1)     
+ 
+dest_fpath = os.path.expanduser("'$fn.best.of.$REP.tre'")
+
+trees = dendropy.TreeList.get_from_path(src_fpath, "nexus")
+trees[-1].write_to_path(dest_fpath, "newick",suppress_rooting=False)'
+test $? == 0 || exit 1
+ln -sf $fn.best.of.$REP.tre $fn.tre
+sed -i -e "s/jn2Ld9X_//g" $fn.tre
+tar cvfj logs.$fn.tar.bz --remove-files control-$fn-* $fn.tre.mpest.* $fn.*.mpest.out $fn.tre.best.mpest
+
+exit 0
